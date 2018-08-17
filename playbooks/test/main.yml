@@ -1,0 +1,21 @@
+---
+- name: Test OpenShift playbook
+  hosts: dev
+  become: yes
+  become_user: user20
+
+  tasks:
+  - name: Login to OpenShift master
+    shell: oc login https://ec2-18-222-109-173.us-east-2.compute.amazonaws.com:8443 --token=IyPlFpg2yT0mQRpQ38ifIzZW_9OvJP8JFdt098WgPag
+
+  - name: Check status on deployments
+    shell: oc status
+
+  - name: Get a list of pods
+    shell: oc get pods | tail -n +2 | awk '{ print $1 }'
+    register: pods
+
+  - name: Get status for each pod
+    shell: "oc logs {{ item }}"
+    with_items: pods
+...
