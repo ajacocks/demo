@@ -15,6 +15,9 @@
     shell: oc get pods | tail -n +2 | awk '{ print $1 }'
     register: pods
 
+  - debug:
+    vars: pods
+
   - name: Get status for each pod
     shell: "oc logs {{ item }}"
     with_items: pods
