@@ -20,5 +20,6 @@
 
   - name: Get status for each pod
     shell: "oc logs {{ item }}"
-    with_items: pods.stdout_lines
+    with_items:
+    - "{{ pods.stdout_lines }}"
 ...
